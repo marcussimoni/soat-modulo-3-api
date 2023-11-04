@@ -13,6 +13,6 @@ public interface TotemController {
 
     List<ProdutoDTO> buscarProdutosPorCategoria(Categoria categoria);
 
-    PedidoDTO checkout(String token, CheckoutPedidoDTO dto);
+    PedidoDTO checkout(CheckoutPedidoDTO dto);
 
 }

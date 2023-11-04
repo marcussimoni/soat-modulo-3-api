@@ -17,6 +17,7 @@ import br.com.fiapsoat.usecases.cliente.ClienteUseCase;
 import br.com.fiapsoat.usecases.pagamento.PagamentoUseCase;
 import br.com.fiapsoat.usecases.pedido.PedidoUseCase;
 import br.com.fiapsoat.usecases.produto.ProdutoUseCase;
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -77,9 +78,9 @@ public class TotemControllerImpl implements TotemController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "/pedido/checkout")
     @Operation(tags = "Totem de auto atendimento", summary = "Checkout do pedido", description = "Realiza o checkout do pedido com todos os itens selecionados e os dados do cliente caso o mesmo tenha se identificado. É obrigatório a adicionar ao menos um produto a lista para prosseguir com o checkout do pedido.")
-    public PedidoDTO checkout(@RequestHeader String token, @RequestBody CheckoutPedidoDTO dto){
+    public PedidoDTO checkout(@RequestBody CheckoutPedidoDTO dto){
         List<Produto> produtos = dto.getProdutos().stream().map(produtoPresenter::fromProdutoDTO).toList();
-        Pedido pedido = pedidoUseCase.checkoutPedido(token, produtos);
+        Pedido pedido = pedidoUseCase.checkoutPedido(produtos);
         return pedidoPresenter.pedidoDTOBuilder(pedido);
     }
 
