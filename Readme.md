@@ -1,6 +1,6 @@
 ## PosTech Software Architecture
 
-Projeto do tech challenge para avaliação do módulo 2 do curso Software Architecture.
+Projeto do tech challenge para avaliação do módulo 3 do curso Software Architecture.
 
 ### Api backend
 
@@ -27,6 +27,16 @@ Os arquivos devem ser executados na seguinte ordem:
 Junto dos arquivos de configuração foi disponibilizado também o arquivo ***k8s-config.sh*** que auxilia a implantação/exclusão do objetos kubernetes.
 Para deploy dos arquivos executar o comando a partir da raiz do projeto:
 `sh kubernetes/k8s-config.sh apply` e para remover o arquivos de configuração executar: `sh kubernetes/k8s-config.sh delete`
+
+## SGBD e Modelo de entidade e relacionamento
+
+A ferramenta SGBD escolhida para armazenar os dados da aplicação foi o Postgres. As motivações que levaram a escolha
+dessa tecnologia foram:
+- Ser um banco de dados relacional, o que possíbilita criar estruturas que reforcem a consistência dos dados que serão inseridos pela aplicação;
+- Fácil utilização e configuração; 
+- Possuir compatibilidade com o serviço RDS da AWS.
+
+![alt text](./img/modelo-entidade-relacionamento.png)
 
 ## Acesso a documentação da api (Swagger)
 

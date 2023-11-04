@@ -10,7 +10,7 @@ import java.util.List;
 public interface PedidoUseCase {
     Pedido buscarPedidoPorId(Long id);
 
-    Pedido checkoutPedido(String token, List<Produto> produtos);
+    Pedido checkoutPedido(List<Produto> produtos);
 
     void atualizarStatusPagamentoDoPedido(Long pedido, StatusDoPagamento status);
 

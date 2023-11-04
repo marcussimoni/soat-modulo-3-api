@@ -12,6 +12,8 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -26,7 +28,6 @@ public class PedidoUseCaseImpl implements PedidoUseCase {
 
     private final PedidoInputPort pedidoInputPort;
     private final ClienteUseCase clienteUseCase;
-    private final AuthUseCase authUseCase;
 
     @Override
     public Pedido buscarPedidoPorId(Long id) {
@@ -36,14 +37,16 @@ public class PedidoUseCaseImpl implements PedidoUseCase {
     }
 
     @Override
-    public Pedido checkoutPedido(String token, List<Produto> produtos) {
+    public Pedido checkoutPedido(List<Produto> produtos) {
 
         Cliente cliente = null;
 
-        String subject = authUseCase.getSubject(token);
+        User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        if (StringUtils.isNotBlank(subject)) {
-            cliente = clienteUseCase.buscarClientePorId(Long.valueOf(subject));
+        String cpf = principal.getUsername();
+
+        if (!cpf.equalsIgnoreCase("cliente_nao_cadastrado")) {
+            cliente = clienteUseCase.buscarClientePorCpf(cpf);
         }
 
         if (CollectionUtils.isEmpty(produtos)){
