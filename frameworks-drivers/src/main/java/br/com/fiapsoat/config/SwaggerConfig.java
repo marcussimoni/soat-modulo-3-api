@@ -7,14 +7,26 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.servers.Server;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.List;
 
 @Configuration
 public class SwaggerConfig {
 
+    @Value("${swagger.url}")
+    private String swaggerUrl;
+
     @Bean
     public OpenAPI config() {
+
+        Server server = new Server();
+        server.description("Endereço de produção");
+        server.url(swaggerUrl);
+
         return new OpenAPI()
                 .addSecurityItem(new SecurityRequirement().addList("Bearer Authentication"))
                 .components(new Components().addSecuritySchemes("Bearer Authentication", createApiScheme()))
@@ -24,7 +36,9 @@ public class SwaggerConfig {
                         .license(new License().name("Apache 2.0").url("http://springdoc.org")))
                 .externalDocs(new ExternalDocumentation()
                         .description("")
-                        .url(""));
+                        .url(""))
+                .servers(List.of(server))
+                ;
     }
 
     private SecurityScheme createApiScheme() {
