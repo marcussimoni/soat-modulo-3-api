@@ -4,6 +4,9 @@ springdoc:
   swagger-ui:
     operationsSorter: alpha
 
+swagger:
+  url: ${SWAGGER_URL:}
+
 Spring:
   profiles:
     active: h2
